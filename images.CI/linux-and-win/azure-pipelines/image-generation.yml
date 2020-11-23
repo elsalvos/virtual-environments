@@ -23,12 +23,12 @@ jobs:
                  -RepoBranch $(CUSTOM_REPOSITORY_BRANCH)
     
   - task: PowerShell@2
-    displayName: 'Find image template file'
+    displayName: 'Set image template variables'
     inputs:
       targetType: 'inline'
       script: |
         $ImageType = "${{ parameters.image_type }}"
-        $TemplateDirectoryName = if ($Image.StartsWith("ubuntu")) { "linux" } else { "win" }
+        $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
         $TemplateDirectoryPath = Join-Path "images" $TemplateDirectoryName
         $TemplatePath = Join-Path $TemplateDirectoryPath "$Image.json"
         Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
