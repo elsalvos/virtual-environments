@@ -14,13 +14,15 @@ param(
     [String] [Parameter (Mandatory=$true)] $VirtualNetworkSubnet
 )
 
-$subFolder = if ($Image.StartsWith("ubuntu")) { "linux" } else { "win" }
-$TemplatePath = [IO.Path]::Combine("images", $subFolder, "$Image.json")
+$TemplateFolder = if ($Image.StartsWith("ubuntu")) { Join-Path "images" "linux" } else { Join "images" "win" }
+$TemplatePath = Join-Path $TemplateFolder "$Image.json"
 if (-not (Test-Path $TemplatePath))
 {
     Write-Error "'-Image' parameter is not valid. You have to specify correct image type."
     exit 1
 }
+
+Set-Location $TemplateFolder
 
 $TempResourceGroupName = "${ResourcesNamePrefix}_${Image}"
 $InstallPassword = [System.GUID]::NewGuid().ToString().ToUpper()
