@@ -1,5 +1,5 @@
 param(
-    [String] [Parameter (Mandatory=$true)] $Image,
+    [String] [Parameter (Mandatory=$true)] $TemplatePath,
     [String] [Parameter (Mandatory=$true)] $ClientId,
     [String] [Parameter (Mandatory=$true)] $ClientSecret,
     [String] [Parameter (Mandatory=$true)] $GitHubFeedToken,
@@ -14,9 +14,6 @@ param(
     [String] [Parameter (Mandatory=$true)] $VirtualNetworkSubnet
 )
 
-$TemplateFolder = if ($Image.StartsWith("ubuntu")) { Join-Path "images" "linux" } else { Join "images" "win" }
-Set-Location $TemplateFolder
-$TemplatePath = "$Image.json"
 if (-not (Test-Path $TemplatePath))
 {
     Write-Error "'-Image' parameter is not valid. You have to specify correct image type."

@@ -90,13 +90,14 @@ jobs:
     workingDirectory: 'images/macos'
     env:
       PACKER_LOG: 1
-      PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/log.txt
+      PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
 
   - task: PowerShell@2
     inputs:
-      targetType: 'inline'
-      script: |
-        Get-Content "$(Build.ArtifactStagingDirectory)/log.txt"
+      targetType: 'script'
+      filePath: ./images.CI/measure-packer-steps-duration.ps1
+      arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
+                        -PrintTopNLongest 25
 
   - bash: |
       echo "Copy image output files"
