@@ -15,7 +15,7 @@ param(
 )
 
 $TemplateFolder = if ($Image.StartsWith("ubuntu")) { Join-Path "images" "linux" } else { Join "images" "win" }
-$TemplatePath = Join-Path $TemplateFolder "$Image.json"
+$TemplatePath = "$Image.json"
 if (-not (Test-Path $TemplatePath))
 {
     Write-Error "'-Image' parameter is not valid. You have to specify correct image type."
