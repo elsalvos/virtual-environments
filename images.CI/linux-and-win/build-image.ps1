@@ -15,14 +15,13 @@ param(
 )
 
 $TemplateFolder = if ($Image.StartsWith("ubuntu")) { Join-Path "images" "linux" } else { Join "images" "win" }
+Set-Location $TemplateFolder
 $TemplatePath = "$Image.json"
 if (-not (Test-Path $TemplatePath))
 {
     Write-Error "'-Image' parameter is not valid. You have to specify correct image type."
     exit 1
 }
-
-Set-Location $TemplateFolder
 
 $TempResourceGroupName = "${ResourcesNamePrefix}_${Image}"
 $InstallPassword = [System.GUID]::NewGuid().ToString().ToUpper()
