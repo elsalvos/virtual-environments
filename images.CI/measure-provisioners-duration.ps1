@@ -114,7 +114,7 @@ Write-Host "Total provisioners time: $totalProvisionersTime"
 if ($PrintTopNLongest -and ($PrintTopNLongest -gt 0)) {
     Write-Host "`n`nTop longest scripts:"
     $provisionersList | ForEach-Object {
-        $_.SubItems.Length -gt 0 ? $_.SubItems : @{ Command = $_.ProvisionerType; Duration = $_.Duration }
+        if ($_.SubItems.Length -gt 0) { $_.SubItems } else { @{ Command = $_.ProvisionerType; Duration = $_.Duration } }
     } | Sort-Object -Property Duration | Select-Object -Last $PrintTopNLongest | ForEach-Object {
         Write-Host "- $($_.Duration) | $($_.Command)"
     }
