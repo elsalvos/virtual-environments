@@ -90,14 +90,7 @@ jobs:
     workingDirectory: 'images/macos'
     env:
       PACKER_LOG: 1
-      PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
-
-  - task: PowerShell@2
-    inputs:
-      targetType: 'script'
-      filePath: ./images.CI/measure-packer-steps-duration.ps1
-      arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
-                        -PrintTopNLongest 25
+      PACKER_LOG_PATH: $(Agent.TempDirectory)/packer-log.txt
 
   - bash: |
       echo "Copy image output files"
@@ -119,6 +112,13 @@ jobs:
     inputs:
       ArtifactName: 'Built_VM_Artifacts'
     displayName: Publish Artifacts
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: ./images.CI/measure-packer-steps-duration.ps1
+      arguments: -PackerLogPath "$(Agent.TempDirectory)/packer-log.txt" `
+                        -PrintTopNLongest 25
 
   - task: PublishTestResults@2
     inputs:
