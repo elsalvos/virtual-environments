@@ -1,0 +1,1 @@
+GenerateResourcesAndImage -SubscriptionId "d9295650-b2e5-48a9-a325-ed1a4c726484" -ResourceGroupName "santargsa00001" -ImageGenerationRepositoryRoot "C:\TFworkspace\packerImages\virtual-environments" -ImageType windows2019 -AzureLocation "west US" -GithubFeedToken "5ef0d38e95598ef02497511c62034ea8ae2f3c58"
